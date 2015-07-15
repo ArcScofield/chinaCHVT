@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+
+
+<head>
+
+    <!-- Define the versions of IE that will be used to render the page. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- End Responsive -->
+
+    <!--page meta data(author,description)-->
+    <meta name="description" content="中国历史文化名村名镇" />
+    <meta name="author" content="衡阳师范学院古村古镇文化遗产数字化传承协同创新中心 版权所有">
+
+    <!--收藏夹、网页图标-->
+    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="icon" href="images/favicon.ico" />
+
+
+    <title>中国历史文化名村名镇</title>
+
+
+    <!--reference esri.css and dijit styles-->
+    <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css" />
+    <!--reference custom styles-->
+    <link rel="stylesheet" href="css/layout.css" />
+</head>
+
+
+<body class="claro">
+    <div id="mainWindow"
+        data-dojo-type="dijit.layout.BorderContainer"
+        data-dojo-props="design:'headline',gutters:false">
+
+        <!--page header-->
+        <div id="headerPane" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'">
+            <h2>中国历史文化名村名镇</h2>
+        </div>
+
+        <!--left pane-->
+        <div data-dojo-type="dijit.layout.ContentPane" id="leftPane" data-dojo-props="region:'left'">
+            <div data-dojo-type="dijit.layout.TabContainer">
+                <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'图例', selected:true">
+                    <!--map legend goes here-->
+                    <div id="legendDiv">
+                    </div>
+                </div>
+                <!--map layer list goes here-->
+                <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'图层'">
+                    图层列表
+                </div>
+            </div>
+        </div>
+
+        <!--right pane-->
+        <div data-dojo-type="dijit.layout.AccordionPane" id="rightPane" data-dojo-props="region:'right'">
+            <div data-dojo-type="dijit.layout.AccordionContainer">
+                <div data-dojo-type="dijit.layout.ContentPane"
+                    title="Pane 1">
+                    Content for Pane 1
+                </div>
+                <div data-dojo-type="dijit.layout.ContentPane" title="Pane 2">
+                    Content for Pane 2
+                </div>
+                <div data-dojo-type="dijit.layout.ContentPane" title="Pane 3">
+                    Content for Pane 3
+                </div>
+            </div>
+        </div>
+
+        <!--map goes here-->
+        <div id="mapPane" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center'">
+        </div>
+
+        <!--page footer-->
+        <div id="footerPane" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'bottom'">
+            this is the footer section
+        </div>
+
+    </div>
+
+    <script>var dojoConfig = { parseOnLoad: true };</script>
+    <script src="http://js.arcgis.com/3.13/"></script>
+    <script>
+        var map = null;
+        require([
+            "esri/map",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dijit/layout/TabContainer",
+            "dijit/layout/AccordionContainer",
+            "esri/dijit/Legend",
+            "dojo/domReady!"
+        ], function (Map, BorderContainer, ContentPane, TabContainer, AccordionContainer, Legend) {
+            map = new Map("mapPane", {
+                //basemap: "streets",
+                //center: [112, 31],
+                //zoom: 10//maxZoom,minZoom
+            });
+
+            var baseLayerUrl = "http://cache1.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer";
+            var baseLayer = new esri.layers.ArcGISTiledMapServiceLayer(baseLayerUrl);
+            var legend = new Legend({
+                map: map,
+                layerInfos: [{ layer: baseLayer, title: "底图" }],
+                arrangement: esri.dijit.Legend.ALIGN_LEFT
+            }, "legendDiv");
+            legend.startup();
+
+            map.addLayer(baseLayer);
+        });
+    </script>
+</body>
+
+</html>
